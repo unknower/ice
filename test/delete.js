@@ -196,6 +196,7 @@ $(document).ready(function() {
       'Deleted right through same user insert.');
 
 
+
     // Setup for deleting left, through different user delete
     el = jQuery('<div>' +
         '<p>a<em> <span class="del cts-1" userid="1" cid="1">left</span>ist</em> paragraph</p>' +
@@ -265,6 +266,28 @@ $(document).ready(function() {
         && el.find('em').find('.del:eq(0)').text() === 'right'
         && el.find('em').find('.del:eq(1)').text() === 'ist',
       'Deleted right through different user delete.');
+
+
+	// Setup for deleting right, and then checking the cursor position afterwards
+	// The cursor must be outside of (after) the .del region
+    el = jQuery('<div>' +
+        '<p>a <em><span class="del cts-1" userid="1" cid="1">right</span>ist</em> paragraph</p>' +
+      '</div>');
+    changeEditor = getIce(el);
+
+	// DO NOT append to body, to simulate hidden track change
+	// (Do not append el to $(body))
+
+    // Delete right through different user delete.
+    range.setStart(el.find('span.del')[0], 0);
+	range.moveStart('character', 5);
+    range.collapse(true);
+    changeEditor.deleteContents(true, range);
+
+	ok(range.startContainer === $("em")[0]
+			&& range.startOffset === 2,
+			"Deleting right results in the cursor after the .del element");
+
 
       // Setup for deleting left, through same user delete
     el = jQuery('<div>' +
