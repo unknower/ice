@@ -268,15 +268,6 @@
         this.pluginsManager.fireCaretUpdated();
       }
     },
-	debugRange: function(range, caption){
-		console.log("######################################### ", caption);
-		console.log("startContainer = ", range.startContainer);
-		console.log("startOffset = ", range.startOffset);
-		console.log("endContainer = ", range.endContainer);
-		console.log("endContainer.parentNode = ", range.endContainer.parentNode);
-		console.log("endContainer.parentNode.nextSibling = ", range.endContainer.parentNode.nextSibling);
-		console.log("endOffset = ", range.endOffset);
-	},
 	visible: function(el) {
 		if(el.nodeType === ice.dom.TEXT_NODE) el = el.parentNode;
 		var rect = el.getBoundingClientRect();
@@ -399,6 +390,7 @@
       } else {
         range = this.getCurrentRange();
       }
+
       var changeid = this.startBatchChange(this.changeTypes['deleteType'].alias);
       if (range.collapsed === false) {
         this._deleteSelection(range);
@@ -710,7 +702,7 @@
         voidEl = this._getVoidElement(range.endContainer);
         if (voidEl) {
           range.setEnd(range.endContainer, 0);
-          range.moveEnd(ice.dom.CHARACTER_UNIT, ice.dom.getNodeCharacterLength(range.endContainer));
+		  range.moveEnd(ice.dom.CHARACTER_UNIT, ice.dom.getNodeCharacterLength(range.endContainer));
           range.collapse();
         } else {
           range.setStart(range.endContainer, 0);
